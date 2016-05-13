@@ -1,6 +1,7 @@
-from emailcrawler.items import EmailcrawlerItem
-from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
+from scrapy.spiders import CrawlSpider, Rule
+
+from emailcrawler.items import EmailcrawlerItem
 
 
 class EmailSpider(CrawlSpider):
@@ -16,3 +17,12 @@ class EmailSpider(CrawlSpider):
             item = EmailcrawlerItem()
             item['url'] = link.url
             yield
+
+    def set_allowed_domains(self, allowed_domains):
+        self.allowed_domains = allowed_domains
+
+    def set_name(self, name):
+        self.name = name
+
+    def set_start_urls(self, start_urls):
+        self.start_urls = start_urls
