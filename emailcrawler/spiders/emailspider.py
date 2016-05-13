@@ -1,28 +1,31 @@
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 
-from emailcrawler.items import EmailcrawlerItem
-
+from items import EmailcrawlerItem
+import re
 
 class EmailSpider(CrawlSpider):
-    name = "faircent"
-    allowed_domains = ["faircent.com"]
-    start_urls = ["https://www.faircent.com/"]
+    name = ''
     item = EmailcrawlerItem()
 
     rules = (Rule(LxmlLinkExtractor(allow=()), callback='parse_obj', follow=True),)
 
+    def __init__(self, *args, **kwargs):
+        super(EmailSpider, self).__init__(*args, **kwargs)
+
+        self.name = kwargs.get('name')
+        self.allowed_domains = [kwargs.get('allowed_domain')]
+        self.start_urls = [kwargs.get('start_url')]
+
     def parse_obj(self, response):
-        for link in LxmlLinkExtractor(allow=(), deny=self.allowed_domains).extract_links(response):
-            item = EmailcrawlerItem()
-            item['url'] = link.url
-            yield
+        matches = re.findall(r'[\w\.-]+@[\w\.-]+', response.body)
+        emails = list()
+        for match in matches:
+            if match not in emails:
+                emails.append(match)
+        if len(emails) > 0:
+            item = EmailcrawlerItem()  
+            item['url'] = response.url
+            item['emails'] = emails
+            return item
 
-    def set_allowed_domains(self, allowed_domains):
-        self.allowed_domains = allowed_domains
-
-    def set_name(self, name):
-        self.name = name
-
-    def set_start_urls(self, start_urls):
-        self.start_urls = start_urls
