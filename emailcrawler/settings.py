@@ -14,7 +14,7 @@ BOT_NAME = 'emailcrawler'
 SPIDER_MODULES = ['emailcrawler.spiders']
 NEWSPIDER_MODULE = 'emailcrawler.spiders'
 
-DEPTH_LIMIT = 3
+DEPTH_LIMIT = 1
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
