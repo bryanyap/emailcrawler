@@ -1,8 +1,9 @@
+import re
+
+from items import EmailcrawlerItem
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 
-from items import EmailcrawlerItem
-import re
 
 class EmailSpider(CrawlSpider):
     name = ''
@@ -24,8 +25,7 @@ class EmailSpider(CrawlSpider):
             if match not in emails:
                 emails.append(match)
         if len(emails) > 0:
-            item = EmailcrawlerItem()  
+            item = EmailcrawlerItem()
             item['url'] = response.url
             item['emails'] = emails
             return item
-
