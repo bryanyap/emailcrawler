@@ -27,13 +27,9 @@ DEPTH_LIMIT = 1
 # See also autothrottle settings and docs
 # DOWNLOAD_DELAY=3
 # The download delay setting will honor only one of:
-<<<<<<< HEAD
+
 CONCURRENT_REQUESTS_PER_DOMAIN=16
 #CONCURRENT_REQUESTS_PER_IP=16
-=======
-# CONCURRENT_REQUESTS_PER_DOMAIN=16
-# CONCURRENT_REQUESTS_PER_IP=16
->>>>>>> 7470ff9fd4abe110269f54b103a4066f55ccc4dd
 
 # Disable cookies (enabled by default)
 # COOKIES_ENABLED=False

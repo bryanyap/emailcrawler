@@ -3,7 +3,6 @@ import re
 from items import EmailcrawlerItem
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
-from scrapy.exceptions import CloseSpider
 
 
 class EmailSpider(CrawlSpider):
@@ -23,18 +22,11 @@ class EmailSpider(CrawlSpider):
         results = list()
         matches = re.findall(r'[\w\.-]+@[\w\.-]+', response.body)
         for match in matches:
-<<<<<<< HEAD
             if match.split('@')[1] == self.allowed_domains[0]:
                 if match not in results:
                     results.append(match)
         if len(results) > 0:
-            item = EmailcrawlerItem()  
-=======
-            if match not in emails:
-                emails.append(match)
-        if len(emails) > 0:
             item = EmailcrawlerItem()
->>>>>>> 7470ff9fd4abe110269f54b103a4066f55ccc4dd
             item['url'] = response.url
             item['emails'] = results
             return item
