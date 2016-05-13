@@ -1,6 +1,5 @@
 from emailcrawler.items import EmailcrawlerItem
 from scrapy.spiders import CrawlSpider, Rule
-from scrapy.http import Request
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 
 
@@ -16,3 +15,4 @@ class EmailSpider(CrawlSpider):
         for link in LxmlLinkExtractor(allow=(), deny=self.allowed_domains).extract_links(response):
             item = EmailcrawlerItem()
             item['url'] = link.url
+            yield
