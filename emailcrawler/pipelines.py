@@ -7,6 +7,7 @@
 
 import json
 
+
 class EmailcrawlerPipeline(object):
     def __init__(self):
         self.file = open('items.json', 'a')
