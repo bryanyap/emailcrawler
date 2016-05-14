@@ -16,9 +16,12 @@ class EmailcrawlerPipeline(object):
     def __init__(self):
         self.file = open('items.json', 'a')
 
-        os.remove('scrapedata.db')
+        try:
+            os.remove('scrapedata.db')
+        except:
+            pass
 
-        self.connection = sqlite3.connect('./scrapedata.db')
+        self.connection = sqlite3.connect('scrapedata.db')
         self.cursor = self.connection.cursor()
         self.cursor.execute(
             'CREATE TABLE IF NOT EXISTS scrape (domain VARCHAR(100), address VARCHAR(100), url VARCHAR(500), PRIMARY KEY(domain, address), FOREIGN KEY(address) REFERENCES emails.address)')
