@@ -5,16 +5,12 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-# import json
 import sqlite3
-
-from scrapy import log
+import logging
 
 
 class EmailcrawlerPipeline(object):
     def __init__(self):
-        self.file = open('items.json', 'a')
-
         self.connection = sqlite3.connect('scrapedata.db')
         self.cursor = self.connection.cursor()
         self.cursor.execute('CREATE TABLE IF NOT EXISTS email (address VARCHAR(100), PRIMARY KEY(address))')
@@ -22,9 +18,6 @@ class EmailcrawlerPipeline(object):
         self.connection.commit()
 
     def process_item(self, item, spider):
-        # line = json.dumps(dict(item)) + '\n'
-        # self.file.write(line)
-
         for email in item['emails']:
             self.cursor.execute('select * from email where address=\'' + str(email) + '\'')
             result = self.cursor.fetchone()
@@ -32,7 +25,7 @@ class EmailcrawlerPipeline(object):
                 self.cursor.execute('insert into email (address) values (\'' + str(email) + '\')')
                 self.cursor.execute('insert into scrape (domain, address, url) values (' + '\'' + str(item['domain']) + '\'' +',\'' + str(email) + '\'' +  ',\'' + item['url'] + '\'' + ')')
                 self.connection.commit()
-                log.msg("Item stored : " % email, level=log.DEBUG)
+                logging.log(logging.INFO, 'Item stored : ' +  str(email))
             else:
-                log.msg("Email already in database: %s" % email, level=log.DEBUG)
+                logging.log(logging.INFO, 'Email already in database: ' + str(email))
         return item
