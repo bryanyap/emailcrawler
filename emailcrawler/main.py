@@ -7,7 +7,7 @@ from scrapy.utils.project import get_project_settings
 
 from spiders.emailspider import EmailSpider
 
-if len(argv) != 2:
+if len(argv) != 3:
     raise ValueError('Please key in the correct number of inputs')
 
 try:
@@ -15,10 +15,16 @@ try:
 except:
     raise ValueError('Please key in an integer value')
 
-try:
-    os.remove('items.json')
-except OSError:
-    pass
+try: 
+    filename = argv[2]
+    open(argv[2])
+except:
+    raise ValueError('Please key in a correct file input')
+
+# try:
+#     os.remove('items.json')
+# except OSError:
+#     pass
 
 try:
     os.remove('scrapedata.db')
@@ -28,7 +34,7 @@ except:
 process = CrawlerProcess(get_project_settings())
 counter = 0
 
-with open('/home/bryan/Desktop/tia_selected_websites.csv') as f:
+with open(filename) as f:
     for line in f:
         if counter != 0:
             if counter == input_number:
