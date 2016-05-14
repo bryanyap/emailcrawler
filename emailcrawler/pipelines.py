@@ -23,9 +23,8 @@ class EmailcrawlerPipeline(object):
 
         self.connection = sqlite3.connect('scrapedata.db')
         self.cursor = self.connection.cursor()
-        self.cursor.execute(
-            'CREATE TABLE IF NOT EXISTS scrape (domain VARCHAR(100), address VARCHAR(100), url VARCHAR(500), PRIMARY KEY(domain, address), FOREIGN KEY(address) REFERENCES emails.address)')
         self.cursor.execute('CREATE TABLE IF NOT EXISTS email (address VARCHAR(100), PRIMARY KEY(address))')
+        self.cursor.execute('CREATE TABLE IF NOT EXISTS scrape (domain VARCHAR(100), address VARCHAR(100), url VARCHAR(500), PRIMARY KEY(domain, address), FOREIGN KEY(address) REFERENCES emails(address))')
 
     def process_item(self, item, spider):
         line = json.dumps(dict(item)) + '\n'
