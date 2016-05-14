@@ -25,13 +25,12 @@ class EmailcrawlerPipeline(object):
         line = json.dumps(dict(item)) + '\n'
         self.file.write(line)
 
-        for email in item.emails:
+        for email in item['emails']:
             self.cursor.execute("select * from email where address=?", email)
             result = self.cursor.fetchone()
             if not result:
                 self.cursor.execute("insert into email (address) values (?)", email)
-                self.cursor.execute("insert into scrape (domain, address, url) values (?,?,?)", item.domain, email,
-                                    item.url)
+                self.cursor.execute("insert into scrape (domain, address, url) values (?,?,?)", item['domain'], email, item['url'])
                 self.connection.commit()
                 log.msg("Item stored : " % email, level=log.DEBUG)
             else:
