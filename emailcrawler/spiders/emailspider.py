@@ -51,5 +51,5 @@ class EmailSpider(CrawlSpider):
             item = EmailcrawlerItem()
             item['url'] = response.url
             item['emails'] = results
-            item['domain'] = self.allowed_domains[0]
+            item['domain'] = domain
             return item
