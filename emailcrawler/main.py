@@ -30,7 +30,7 @@ counter = 0
 
 with open('/home/bryan/Desktop/tia_selected_websites.csv') as f:
     for line in f:
-        if counter == 0:
+        if counter != 0:
             if counter == input_number:
                 break
         start_url = line.split('\t')[1]
